@@ -1,0 +1,39 @@
+version: '3.9'
+services:
+  db:
+    container_name: mysql
+    image: mysql
+    # restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: django-db
+      MYSQL_USER: django
+      MYSQL_PASSWORD: django
+      TZ: 'Asia/Tokyo'
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    # healthcheck:
+    #   test: ["CMD-SHELL", "mysqladmin ping -h localhost -u $$MYSQL_ROOT_USER -p$$MYSQL_ROOT_PASSWORD || exit 1"]
+    #   interval: 30s
+    #   timeout: 5s
+    #   retries: 3
+    #   start_period: 10s
+    volumes:
+      - db_data:/var/lib/mysql
+
+  django:
+    container_name: django
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000
+    # environment:
+    #   MYSQL_DATABASE: ${MYSQL_DATABASE}
+    #   MYSQL_ROOT_USER: ${MYSQL_ROOT_USER}
+    #   MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
