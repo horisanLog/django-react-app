@@ -2,21 +2,24 @@ version: '3.7'
 
 services:
   backend:
-    volumes:
-      - static:/static
-    env_file:
-      - .env
     build:
-      context: ./backend
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - 8000:8000
+    volumes:
+      - .:/app
+    # depends_on: 
+    #   - db
   frontend:
     build:
-      context: ./frontend
-    ports:
-      - "3001:3000"
+      context: ./frontend/
+      dockerfile: Dockerfile
     volumes:
-      - frontend:/app/build
+      - ./frontend/app:/usr/src/app
+    command: 'npm run dev'
+    ports:
+      - '3001:3000'
   # nginx:
   #   build:
   #     context: ./nginx
