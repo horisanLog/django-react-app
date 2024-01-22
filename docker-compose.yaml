@@ -3,14 +3,15 @@ version: '3.7'
 services:
   backend:
     build:
-      context: .
+      context: ./backend/
       dockerfile: Dockerfile
+    env_file:
+      - .env
+    volumes:
+      - ./backend/app:/usr/src/app
     ports:
       - 8000:8000
-    volumes:
-      - .:/app
-    # depends_on: 
-    #   - db
+
   frontend:
     build:
       context: ./frontend/
@@ -32,6 +33,6 @@ services:
   #     - backend
   #     - frontend
 
-volumes:
-  static:
-  frontend:
+# volumes:
+#   static:
+#   frontend:
