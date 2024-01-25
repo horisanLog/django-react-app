@@ -11,17 +11,17 @@ services:
       - ./backend/app:/usr/src/app
     ports:
       - 8000:8000
+    command: 'python3 manage.py runserver 0.0.0.0:8000'
     depends_on:
       - db
 
   db:
-    container_name: docker-django-db
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: django
       MYSQL_PASSWORD: password
-      MYSQL_USER: django
+      MYSQL_USER: root
       TZ: 'Asia/Tokyo'
     command: --default-authentication-plugin=mysql_native_password
     volumes:
