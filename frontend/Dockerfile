@@ -1,6 +1,7 @@
 FROM node:20.0.0-alpine
 
-WORKDIR /app
+ENV APP_HOME /var/www/frontend 
+WORKDIR $APP_HOME
 COPY . .
 
 RUN npm install

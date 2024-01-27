@@ -34,7 +34,9 @@ services:
       context: ./frontend/
       dockerfile: Dockerfile
     volumes:
-      - ./frontend/app:/usr/src/app
+      - "./frontend:/var/www/frontend" 
+    environment:
+      CHOKIDAR_USEPOLLING: true
     command: 'npm run dev'
     ports:
       - '3001:3000'
